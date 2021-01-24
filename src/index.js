@@ -1,12 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
+import CButton from './components/Button';
+import DTable from './components/Table';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import fd from './fetchdata';
 
-let testel = <h1>testermester</h1>
+class App extends React.Component {
+  render() { 
+    return (
+      <Container fluid>
+        <Navbar variant="dark" bg='dark'>
+          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <CButton categ='Gloves'/>
+          <CButton categ='Beanies'/>
+          <CButton categ='Facemasks'/>
+        </Navbar> 
+        <div>
+          <DTable categ='Gloves'/>
+        </div>
+      </Container>
+    );
+  }
+}
+
+fd('gloves');
 
 ReactDOM.render(
-  testel,
+  <App />,
   document.getElementById('root')
 );
 
