@@ -25,7 +25,7 @@ class App extends React.Component {
   }
 }
 
-fd('gloves');
+fd();
 
 ReactDOM.render(
   <App />,
