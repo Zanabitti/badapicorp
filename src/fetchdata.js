@@ -38,13 +38,16 @@ export async function fetchData() {
     
     }
 
-    //for(let cat of categs){
+    for(let cat of categs){
     //add stock data to relevant ids
-    //}
+        Object.keys(completedata[cat]).forEach(key => {
+            completedata[cat][e]['stock'] = stockdata[e];
+        });
+    }
 
     
     console.log(completedata);
-
+    return completedata;
 }
 
 

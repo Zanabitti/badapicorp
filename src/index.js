@@ -5,7 +5,6 @@ import CButton from './components/Button';
 import DTable from './components/Table';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import fd from './fetchdata';
 
 class App extends React.Component {
   render() { 
@@ -18,14 +17,12 @@ class App extends React.Component {
           <CButton categ='Facemasks'/>
         </Navbar> 
         <div>
-          <DTable categ='Gloves'/>
+          <DTable categ='gloves'/>
         </div>
       </Container>
     );
   }
 }
-
-fd();
 
 ReactDOM.render(
   <App />,
