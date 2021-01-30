@@ -6,10 +6,15 @@ class CButton extends React.Component {
     constructor(props){
         super(props);
         this.categ = props.categ;
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(){
+        this.props.setCateg(this.categ);
     }
 
     render() {
-        return (<Nav.Link>{this.categ}</Nav.Link>);
+        return (<Nav.Link onClick={this.handleClick}>{this.categ}</Nav.Link>);
     }
 }
 

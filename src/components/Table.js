@@ -1,37 +1,37 @@
 import React from 'react';
-import Thead from './TableHeader';
-//import fd from '../fetchdata';
 import Table from 'react-bootstrap/Table';
-
-const data = {'beanies': { '123456' : { 
-    'id' : '123456',
-    'type' : 'beanies',
-    'name' : 'superhat',
-    'color' : '["black"]',
-    'price' : '71',
-    'manufacturer' : 'bitchinclothes',
-    'stock' : 'IN STOCK'
-}}};
 
 
 class DTable extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-            isFetched : false,
-            testData : {}
-        };
+
+    createHeaders(){
+            let fullHeaders = [];
+
+            let ths = Object.keys(this.props.itemData[Object.keys(this.props.itemData)[0]]).map((key, index) => {
+                return <th key={index}>{key}</th>
+            });
+
+            fullHeaders.push(<tr key='xyz'>{ths}</tr>);
+
+            return fullHeaders;
     }
 
-    componentDidMount(){
-        this.setState({ testData : data['beanies']});
-        this.setState({ isFetched : true});
+    createRows(){
+            return Object.keys(this.props.itemData).map((id, index) => {
+                const { type, name, color, price, manufacturer, stock} = this.props.itemData[id];
+                return (<tr key={id}>
+                    <td>{id}</td><td>{type}</td><td>{name}</td><td>{color}</td><td>{price}</td>
+                    <td>{manufacturer}</td><td>{stock}</td>
+                </tr>)
+            })
     }
 
     render() {
-        console.log(this.state);
         return(<Table striped bordered hover variant="dark">
-                    <Thead fdata={this.state.isFetched ? this.state.testData : {}}/>
+                    
+                    <thead>{this.createHeaders()}</thead>
+                    <tbody>{this.createRows()}</tbody>
+                   
                 </Table>);
     }
 }

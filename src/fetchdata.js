@@ -63,7 +63,7 @@ export async function fetchData() {
 
 
     console.log(completedata);
-    //return completedata;
+    return completedata;
 }
 
 
