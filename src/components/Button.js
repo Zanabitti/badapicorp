@@ -14,7 +14,7 @@ class CButton extends React.Component {
     }
 
     render() {
-        return (<Nav.Link onClick={this.handleClick}>{this.categ}</Nav.Link>);
+        return (<Nav.Item className='d-flex'><Nav.Link className='' onClick={this.handleClick}>{this.categ}</Nav.Link></Nav.Item>);
     }
 }
 

@@ -6,7 +6,6 @@ class DTable extends React.Component {
 
     createHeaders(){
             let fullHeaders = [];
-
             let ths = Object.keys(this.props.itemData[Object.keys(this.props.itemData)[0]]).map((key, index) => {
                 return <th key={index}>{key}</th>
             });
@@ -20,17 +19,19 @@ class DTable extends React.Component {
             return Object.keys(this.props.itemData).map((id, index) => {
                 const { type, name, color, price, manufacturer, stock} = this.props.itemData[id];
                 return (<tr key={id}>
-                    <td>{id}</td><td>{type}</td><td>{name}</td><td>{color}</td><td>{price}</td>
+                    <td>{id}</td><td>{type}</td><td>{name}</td>
+                    <td>{color}</td>
+                    <td>{price}</td>
                     <td>{manufacturer}</td><td>{stock}</td>
                 </tr>)
             })
     }
 
     render() {
-        return(<Table striped bordered hover variant="dark">
+        return(<Table striped hover size='sm' responsive variant="dark" className='text-center text-capitalize'>
                     
-                    <thead>{this.createHeaders()}</thead>
-                    <tbody>{this.createRows()}</tbody>
+                    <thead>{(this.props.itemData !== undefined) && this.createHeaders()}</thead>
+                    <tbody>{(this.props.itemData !== undefined) && this.createRows()}</tbody>
                    
                 </Table>);
     }
