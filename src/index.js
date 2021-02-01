@@ -18,6 +18,7 @@ class App extends React.Component {
       isFetched : false,
       isCurrent : false,
       isFetchedBg : false,
+      dataExpiry : null,
       itemData : null,
       categ : 'gloves',
       fd : new fd(this.getPercent.bind(this)),
