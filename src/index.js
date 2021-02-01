@@ -5,29 +5,10 @@ import CButton from './components/Button';
 import DTable from './components/Table';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import Spinner from 'react-bootstrap/Spinner';
+import ProgressBar from 'react-bootstrap/ProgressBar'
 import Nav from 'react-bootstrap/Nav'
 import fd from './fetchdata';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
-
-const data = {'beanies': { '123456' : { 
-  'id' : '123456',
-  'type' : 'beanies',
-  'name' : 'superhat',
-  'color' : '["black"]',
-  'price' : '71',
-  'manufacturer' : 'bitchinclothes',
-  'stock' : 'IN STOCK'
-}},
-  'gloves': { '987654' : {
-  'id' : '987654',
-  'type' : 'gloves',
-  'name' : 'funkyhat',
-  'color': 'red',
-  'price': '123',
-  'manufacturer' : 'okkau',
-  'stock' : 'less than 10'
-}}};
 
 
 class App extends React.Component {
@@ -35,37 +16,33 @@ class App extends React.Component {
     super(props);
     this.state = {
       isFetched : false,
+      isCurrent : false,
+      isFetchedBg : false,
       itemData : null,
-      categ : 'beanies' 
+      categ : 'gloves',
+      fd : new fd(this.getPercent.bind(this)),
+      completionPT : 0 
     }
   }
 
 
   componentDidMount(){
-
-    //Online data
-    /*
-    fd().then(resp => {
+    this.state.fd.fetchData().then(resp => {
         this.setState({
             isFetched : true,
             itemData : resp
         });
-    }); */
-
-    //Offline testdata
-    
-    this.setState({
-      isFetched : true,
-      itemData : data
-    });
-    
+    }); 
   }
 
   getCateg = (catName) => {
       let cat = catName.toLowerCase();
       this.setState({ categ : cat});
   }
-
+  
+  getPercent = (pct) => {
+    this.setState({ completionPT : pct});
+  }
 
   render() {
     const cat = this.state.categ;
@@ -86,7 +63,7 @@ class App extends React.Component {
       <Container fluid='lg' className="px-0">
  
         <div>
-          {(this.state.isFetched !== true) &&  <Spinner animation="border" variant="danger" />}
+          {(this.state.isFetched !== true) &&  <ProgressBar animated variant='success' now={this.state.completionPT} />}
           {this.state.isFetched && <DTable itemData={this.state.itemData[cat]}/>}
         </div>
       </Container>

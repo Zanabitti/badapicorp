@@ -13,3 +13,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.progress {
+  height: 2rem;
+  margin-top: 3%;
+}
