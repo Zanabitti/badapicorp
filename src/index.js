@@ -28,10 +28,15 @@ class App extends React.Component {
 
 
   componentDidMount(){
+    setInterval( () =>
+      this.setState({ dataExpiry : this.state.dataExpiry+1}),
+     1000);
+
     this.state.fd.fetchData().then(resp => {
         this.setState({
             isFetched : true,
-            itemData : resp
+            itemData : resp,
+            dataExpiry : 0
         });
     }); 
   }
@@ -47,7 +52,6 @@ class App extends React.Component {
 
   render() {
     const cat = this.state.categ;
-    console.log(this.state.itemData);
     return (
       <div>
       <Navbar variant="dark" bg='dark' sticky='top' expand='sm'>
@@ -58,6 +62,7 @@ class App extends React.Component {
         <CButton setCateg={this.getCateg.bind(this)} categ='Gloves'/>
         <CButton setCateg={this.getCateg.bind(this)} categ='Beanies'/>
         <CButton setCateg={this.getCateg.bind(this)} categ='Facemasks'/>
+        <p>{this.state.dataExpiry}</p>
         </Nav>
         </NavbarCollapse>
       </Navbar>
