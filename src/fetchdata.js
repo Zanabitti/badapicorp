@@ -53,7 +53,7 @@ class Fetcher{
         let stockdata = {};
 
         for(let cat of categs) {
-            let curl = `https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
+            let curl = `https://cors-anywhere.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
             let res = await fetch(curl);
             let catdata = await res.json();
             completedata[cat] = {};
@@ -70,7 +70,7 @@ class Fetcher{
         this.completionPCT = 20;
         this.notch = Math.floor((80/mfrs.size));
         for(let name of mfrs) {
-            let aurl = `https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
+            let aurl = `https://cors-anywhere.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
             let res2 = await fetch_retry(aurl, 5);
             let rdata = await res2.json();
 
