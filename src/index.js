@@ -31,7 +31,6 @@ class App extends React.Component {
   componentDidMount(){
     setInterval( () => {
       this.setState({ dataExpiry : this.state.dataExpiry+1});
-      console.log(this.state.dataExpiry);
     }, 1000);
 
     this.state.fd.fetchData().then(resp => {
