@@ -9,6 +9,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
 import Nav from 'react-bootstrap/Nav'
 import fd from './fetchdata';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 
 
 class App extends React.Component {
@@ -22,7 +23,8 @@ class App extends React.Component {
       itemData : null,
       categ : 'gloves',
       fd : new fd(this.getPercent.bind(this)),
-      completionPT : 0 
+      completionPT : 0,
+      loadingTG : ''
     }
   }
 
@@ -46,8 +48,11 @@ class App extends React.Component {
       this.setState({ categ : cat});
   }
   
-  getPercent = (pct) => {
-    this.setState({ completionPT : pct});
+  getPercent = (pct,tgt) => {
+    this.setState({ 
+        completionPT : pct,
+        loadingTG : tgt
+    });
   }
 
   render() {
@@ -62,14 +67,17 @@ class App extends React.Component {
         <CButton setCateg={this.getCateg.bind(this)} categ='Gloves'/>
         <CButton setCateg={this.getCateg.bind(this)} categ='Beanies'/>
         <CButton setCateg={this.getCateg.bind(this)} categ='Facemasks'/>
-        <p>{this.state.dataExpiry}</p>
         </Nav>
         </NavbarCollapse>
       </Navbar>
       <Container fluid='lg' className="px-0">
  
         <div>
-          {(this.state.isFetched !== true) &&  <ProgressBar animated variant='success' now={this.state.completionPT} />}
+          {(this.state.isFetched !== true) &&  
+          <Jumbotron>
+          <h3 className='text-center'>Loading data: {this.state.loadingTG}</h3>  
+          <ProgressBar animated variant='success' now={this.state.completionPT} />
+          </Jumbotron>}
           {this.state.isFetched && <DTable itemData={this.state.itemData[cat]}/>}
         </div>
       </Container>
