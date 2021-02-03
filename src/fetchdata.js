@@ -12,6 +12,7 @@ class Fetcher{
     async fetchData() {
         
         //Testdata 
+        /*
         const completedata = {'beanies': { '123456' : { 
             'id' : '123456',
             'type' : 'beanies',
@@ -30,7 +31,7 @@ class Fetcher{
             'manufacturer' : 'okkau',
             'stock' : 'less than 10'
           }}};
-        /*
+        */
         async function fetch_retry(url, n) {
             try {
                 let res = await fetch(url);
@@ -99,7 +100,7 @@ class Fetcher{
                 completedata[cat][key]['stock'] = stockdata[key];
             });
         }
-        */
+        
 
         console.log(completedata);
         

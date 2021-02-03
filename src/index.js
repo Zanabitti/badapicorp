@@ -17,8 +17,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isFetched : false,
-      isCurrent : false,
-      isFetchedBg : false,
+      isFetchingBg : false,
       dataExpiry : null,
       itemData : null,
       categ : 'gloves',
@@ -30,9 +29,10 @@ class App extends React.Component {
 
 
   componentDidMount(){
-    setInterval( () =>
-      this.setState({ dataExpiry : this.state.dataExpiry+1}),
-     1000);
+    setInterval( () => {
+      this.setState({ dataExpiry : this.state.dataExpiry+1});
+      console.log(this.state.dataExpiry);
+    }, 1000);
 
     this.state.fd.fetchData().then(resp => {
         this.setState({
@@ -41,6 +41,25 @@ class App extends React.Component {
             dataExpiry : 0
         });
     }); 
+  }
+
+  componentDidUpdate(){
+    if(this.state.dataExpiry >= 300)  {
+        if(this.state.isFetchingBg === false) {
+          this.state.fd.fetchData().then( resp => {
+           this.setState({
+              dataExpiry : 0,
+              itemdata : resp,
+              isFetchingBg : false
+           }); 
+          });
+        
+          this.setState({
+            isFetchingBg : true
+          });
+        }
+    }
+    
   }
 
   getCateg = (catName) => {
