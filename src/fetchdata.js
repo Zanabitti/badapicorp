@@ -10,8 +10,9 @@ class Fetcher{
 
 
     async fetchData() {
-        /*
+        
         //Testdata 
+        /*
         const completedata = {'beanies': { '123456' : { 
             'id' : '123456',
             'type' : 'beanies',
@@ -66,10 +67,14 @@ class Fetcher{
             
         }
 
-        this.setPercent(20);
+        this.setPercent(20, 'Products');
         this.completionPCT = 20;
         this.notch = Math.floor((80/mfrs.size));
         for(let name of mfrs) {
+
+            
+            this.setPercent(this.completionPCT, name);
+
             let aurl = `https://cors-anywhere.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
             let res2 = await fetch_retry(aurl, 5);
             let rdata = await res2.json();
@@ -86,16 +91,16 @@ class Fetcher{
                 }
             }
             this.completionPCT += this.notch;
-            this.setPercent(this.completionPCT);
         }
 
+        this.setPercent(this.completionPCT, 'Stockpiles');
         for(let cat of categs){
         //add stock data to relevant ids
             Object.keys(completedata[cat]).forEach(key => {
                 completedata[cat][key]['stock'] = stockdata[key];
             });
         }
-
+        
 
         console.log(completedata);
         
