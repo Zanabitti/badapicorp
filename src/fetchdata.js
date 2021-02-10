@@ -54,7 +54,7 @@ class Fetcher{
         let stockdata = {};
 
         for(let cat of categs) {
-            let curl = `https://cors-anywhere.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
+            let curl = `https://tempprox.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
             let res = await fetch(curl);
             let catdata = await res.json();
             completedata[cat] = {};
@@ -75,7 +75,7 @@ class Fetcher{
             
             this.setPercent(this.completionPCT, name);
 
-            let aurl = `https://cors-anywhere.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
+            let aurl = `https://tempprox.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
             let res2 = await fetch_retry(aurl, 5);
             let rdata = await res2.json();
 
