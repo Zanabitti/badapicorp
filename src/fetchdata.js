@@ -5,33 +5,12 @@ class Fetcher{
     constructor(percentRef){
         this.completionPCT = 0;
         this.notch = 0;
-        this.setPercent = percentRef;
+        this.setPercent = percentRef || null;
     }
 
 
     async fetchData() {
-        
-        //Testdata 
-        /*
-        const completedata = {'beanies': { '123456' : { 
-            'id' : '123456',
-            'type' : 'beanies',
-            'name' : 'superhat',
-            'color' : '["black"]',
-            'price' : '71',
-            'manufacturer' : 'bitchinclothes',
-            'stock' : 'IN STOCK'
-          }},
-            'gloves': { '987654' : {
-            'id' : '987654',
-            'type' : 'gloves',
-            'name' : 'funkyhat',
-            'color': 'red',
-            'price': '123',
-            'manufacturer' : 'okkau',
-            'stock' : 'less than 10'
-          }}};
-        */
+
         async function fetch_retry(url, n) {
             try {
                 let res = await fetch(url);
@@ -54,7 +33,7 @@ class Fetcher{
         let stockdata = {};
 
         for(let cat of categs) {
-            let curl = `https://cors-anywhere.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
+            let curl = `https://tempprox.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
             let res = await fetch(curl);
             let catdata = await res.json();
             completedata[cat] = {};
@@ -75,7 +54,7 @@ class Fetcher{
             
             this.setPercent(this.completionPCT, name);
 
-            let aurl = `https://cors-anywhere.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
+            let aurl = `https://tempprox.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
             let res2 = await fetch_retry(aurl, 5);
             let rdata = await res2.json();
 

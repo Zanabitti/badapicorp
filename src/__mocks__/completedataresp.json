@@ -1,0 +1,18 @@
+{"beanies": { "123456" : { 
+    "id" : "123456",
+    "type" : "beanies",
+    "name" : "superhat",
+    "color" : "[\"black\"]",
+    "price" : "71",
+    "manufacturer" : "bitchinclothes",
+    "stock" : "IN STOCK"
+  }},
+    "gloves": { "987654" : {
+    "id" : "987654",
+    "type" : "gloves",
+    "name" : "funkyhat",
+    "color": "red",
+    "price": "123",
+    "manufacturer" : "okkau",
+    "stock" : "less than 10"
+  }}}
