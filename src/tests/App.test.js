@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'; 
 import Button from '../components/Button';
 import Table from '../components/Table';
-import App from '../App';
+
 import fd from '../fetchdata';
 
 
@@ -46,14 +46,13 @@ describe('Table', () => {
 });
 
 describe('Data Fetching', () => {
-  test('something', async () => {
+  test('fetchData, happy path', async () => {
       let fdt = new fd(jest.fn());
       let x = await fdt.fetchData();
 
-      //render(<div>{JSON.stringify(x)}</div>);
-      //screen.debug();
       expect(x).toBeDefined();
-      expect(x['gloves']).anything();
+      expect(x).toHaveProperty('gloves');
+      expect(x['gloves'][Object.keys(x['gloves'])[0]]).toHaveProperty('id');
   });
 });
 
