@@ -2,14 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'; 
 import Button from '../components/Button';
 import Table from '../components/Table';
-import mockCompleteData from '../__mocks__/completedataresp.json';
-import mockAvailability from '../__mocks__/availabilityresp.json';
-import mockCategory from '../__mocks__/categoryresp.json';
+
 import App from '../App';
 import fd from '../fetchdata';
-beforeEach(() => {
-  fetch.resetMocks();
-});
+
 
 describe('Navigation Buttons', () =>{
   test('Button renders', () => {
@@ -51,19 +47,7 @@ describe('Data Fetching', () => {
 
 
 });
-/*
+
 describe('Index', () => {
-  test('something', () => {
-    fetch.once(mockCategory);
-    fetch.once(mockAvailability);
 
-    let testfd = new fd();
-    let cd = '123';
-    testfd.fetchData().then( resp => {
-      cd = resp;
-    });
-
-    console.log(cd);
-  });
 });
-*/

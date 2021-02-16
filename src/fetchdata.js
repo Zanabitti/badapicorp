@@ -14,6 +14,7 @@ class Fetcher{
         async function fetch_retry(url, n) {
             try {
                 let res = await fetch(url);
+                if(!res.ok) throw new Error('Response error: '+res.status);
                 if (res.headers.get('x-error-modes-active').length > 1) throw new Error('x-error');
                 else return Promise.resolve(res);
                 
@@ -28,14 +29,20 @@ class Fetcher{
         
         let completedata = {};
         let categs = new Set(['gloves','beanies','facemasks']);
-
+        let catdata = {};
         let mfrs = new Set();
         let stockdata = {};
 
         for(let cat of categs) {
             let curl = `https://tempprox.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
-            let res = await fetch(curl);
-            let catdata = await res.json();
+            
+            try {
+                let res = await fetch(curl);
+                catdata = await res.json();
+            } catch(err) {
+                throw new Error('Fetch error!' + err);
+            }
+            
             completedata[cat] = {};
             for(let i in catdata){
                 if(catdata[i].manufacturer !== undefined) mfrs.add(catdata[i].manufacturer);
@@ -49,15 +56,19 @@ class Fetcher{
         this.setPercent(20, 'Products');
         this.completionPCT = 20;
         this.notch = Math.floor((80/mfrs.size));
+        let rdata = {};
         for(let name of mfrs) {
 
             
             this.setPercent(this.completionPCT, name);
 
             let aurl = `https://tempprox.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/availability/${name}`;
-            let res2 = await fetch_retry(aurl, 5);
-            let rdata = await res2.json();
-
+            try {
+                let res2 = await fetch_retry(aurl, 5);
+                rdata = await res2.json();
+            } catch (err) {
+                throw new Error('Error in Stock');
+            }
             
             if( rdata.response.length > 5 ) {
                 for(let i = 0; i<rdata.response.length; i++){
@@ -80,8 +91,6 @@ class Fetcher{
             });
         }
         
-
-        console.log(completedata);
         
         return completedata;
     }

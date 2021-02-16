@@ -37,6 +37,6 @@
     ]
   },
   "devDependencies": {
-    "jest-fetch-mock": "^3.0.3"
+    "msw": "^0.26.2"
   }
 }

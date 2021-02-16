@@ -38,7 +38,8 @@ class App extends React.Component {
             itemData : resp,
             dataExpiry : 0
         });
-    }); 
+    })
+    .catch((err) => { console.log (err);}); 
   }
 
   componentDidUpdate(){
@@ -50,7 +51,8 @@ class App extends React.Component {
               itemdata : resp,
               isFetchingBg : false
            }); 
-          });
+          })
+          .catch((err) => { console.log (err);});
         
           this.setState({
             isFetchingBg : true
