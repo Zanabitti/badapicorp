@@ -1,5 +1,4 @@
 import React from 'react';
-
 import CButton from './components/Button';
 import DTable from './components/Table';
 import Container from 'react-bootstrap/Container';
@@ -7,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import ProgressBar from 'react-bootstrap/ProgressBar'
 import Nav from 'react-bootstrap/Nav'
 import fd from './fetchdata';
-//import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
+import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
 
@@ -95,13 +94,13 @@ class App extends React.Component {
       <Navbar variant="dark" bg='dark' sticky='top' expand='sm'>
         <Navbar.Brand href="#home">BadApi Co.</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        
+        <Navbar.Collapse>
         <Nav className='justify-content-end'>
         <CButton setCateg={this.getCateg.bind(this)} categ='Gloves'/>
         <CButton setCateg={this.getCateg.bind(this)} categ='Beanies'/>
         <CButton setCateg={this.getCateg.bind(this)} categ='Facemasks'/>
         </Nav>
-        
+        </Navbar.Collapse>
       </Navbar>
       <Container fluid='lg' className="px-0">
  
