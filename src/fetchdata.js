@@ -15,13 +15,14 @@ class Fetcher{
             try {
                 let res = await fetch(url);
                 if(!res.ok) throw new Error('Response error: '+res.status);
-                if (res.headers.get('x-error-modes-active').length > 1) throw new Error('x-error');
+                if (res.headers.get('x-error-modes-active').length > 1) throw new Error('X');
                 else return Promise.resolve(res);
                 
 
             } catch (err) {
-                if (n === 1) throw new Error('n is 1');
-                console.log('retried url:' + url);
+                if (n === 1) { throw new Error('n is 1'); }
+                else if (err.message === 'X') { console.log('retried url:' + url); }
+                else { return; }
                 return await fetch_retry(url, n - 1);
             }
         }
@@ -32,31 +33,36 @@ class Fetcher{
         let catdata = {};
         let mfrs = new Set();
         let stockdata = {};
+        let catNotFound = false;
 
         for(let cat of categs) {
+            catNotFound = false;
             let curl = `https://tempprox.herokuapp.com/https://bad-api-assignment.reaktor.com/v2/products/${cat}`;
             
             try {
                 let res = await fetch(curl);
                 catdata = await res.json();
             } catch(err) {
-                throw new Error('Fetch error!' + err);
+                catNotFound = true;
             }
-            
-            completedata[cat] = {};
-            for(let i in catdata){
-                if(catdata[i].manufacturer !== undefined) mfrs.add(catdata[i].manufacturer);
-                let itemid = catdata[i]['id'].toUpperCase();
-                completedata[cat][itemid] = catdata[i];
+            if(!catNotFound) {
+                completedata[cat] = {};
+                for(let i in catdata){
+                    if(catdata[i].manufacturer !== undefined) mfrs.add(catdata[i].manufacturer);
+                    let itemid = catdata[i]['id'].toUpperCase();
+                    completedata[cat][itemid] = catdata[i];
 
+                }
             }
             
         }
 
+        if(Object.keys(catdata).length === 0) throw new Error('nodata');
         this.setPercent(20, 'Products');
         this.completionPCT = 20;
         this.notch = Math.floor((80/mfrs.size));
         let rdata = {};
+        let notFound = false;
         for(let name of mfrs) {
 
             
@@ -67,10 +73,10 @@ class Fetcher{
                 let res2 = await fetch_retry(aurl, 5);
                 rdata = await res2.json();
             } catch (err) {
-                throw new Error('Error in Stock');
+                notFound = true;
             }
             
-            if( rdata.response.length > 5 ) {
+            if(!notFound) {
                 for(let i = 0; i<rdata.response.length; i++){
                     let payload = rdata.response[i]['DATAPAYLOAD'];
                     let needle = '<INSTOCKVALUE>';
@@ -79,7 +85,7 @@ class Fetcher{
                     stockdata[rdata.response[i]['id']] = payload.substring(cut0,cut1);
                     
                 }
-            }
+            } 
             this.completionPCT += this.notch;
         }
 

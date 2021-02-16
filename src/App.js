@@ -22,7 +22,8 @@ class App extends React.Component {
       categ : 'gloves',
       fd : new fd(this.getPercent.bind(this)),
       completionPT : 0,
-      loadingTG : ''
+      loadingTG : '',
+      isFetchError : false
     }
   }
 
@@ -39,7 +40,13 @@ class App extends React.Component {
             dataExpiry : 0
         });
     })
-    .catch((err) => { console.log (err);}); 
+    .catch((err) => { 
+        this.setState({
+            dataExpiry : 0,
+            isFetchError : true,
+            loadingTG : 'Failed'
+        });
+    }); 
   }
 
   componentDidUpdate(){
@@ -52,7 +59,14 @@ class App extends React.Component {
               isFetchingBg : false
            }); 
           })
-          .catch((err) => { console.log (err);});
+          .catch((err) => { 
+            if(err.message === 'nodata') {
+              this.setState({
+                dataExpiry : 0,
+                isFetchingBg : false
+              });
+            }
+          });
         
           this.setState({
             isFetchingBg : true
@@ -92,11 +106,18 @@ class App extends React.Component {
       <Container fluid='lg' className="px-0">
  
         <div>
-          {(this.state.isFetched !== true) &&  
-          <Jumbotron>
-          <h3 className='text-center'>Loading data: {this.state.loadingTG}</h3>  
-          <ProgressBar animated variant='success' now={this.state.completionPT} />
-          </Jumbotron>}
+          {(this.state.isFetched !== true && this.state.isFetchError !== true) &&  
+            <Jumbotron>
+              <p className='text-center'>Loading data: {this.state.loadingTG}</p>  
+              <ProgressBar animated variant='success' now={this.state.completionPT} />
+            </Jumbotron>}
+          {(this.state.isFetched !== true && this.state.isFetchError) &&
+            <Jumbotron>
+              <p className='text-center'>Loading data: {this.state.loadingTG}</p>
+              <p className='text-center'>No dataset could be found or a network error occured, please refresh the page.</p> 
+              <ProgressBar animated variant='danger' now='100' />
+            </Jumbotron>
+          }
           {this.state.isFetched && <DTable itemData={this.state.itemData[cat]}/>}
         </div>
       </Container>
